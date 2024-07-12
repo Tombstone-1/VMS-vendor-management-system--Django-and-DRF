@@ -38,7 +38,6 @@ metrics.
 
 2. Install dependencies:
     Package             Version
-    ------------------- -------
     asgiref             3.8.1
     Django              5.0.7
     djangorestframework 3.15.2
