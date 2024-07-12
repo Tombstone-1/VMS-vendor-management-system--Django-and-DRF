@@ -37,6 +37,7 @@ metrics.
     source virtenv/scripts/activate (for git bash)
 
 2. Install dependencies:
+   '''
     Package             Version
     asgiref             3.8.1
     Django              5.0.7
@@ -44,18 +45,19 @@ metrics.
     pip                 24.1.2
     sqlparse            0.5.0
     tzdata              2024.1
+   '''
 
     Or
     pip install -r requirements.txt
 
-3. Run migrations:
+4. Run migrations:
     python manage.py makemigrations api
     python manage.py migrate
 
-4. Create Super User for Authentication
+5. Create Super User for Authentication
     python manage.py createsuperuser
 
-5. Run server
+6. Run server
     python manage.py runserver
 
 # API endpoints
@@ -67,35 +69,38 @@ metrics.
     http://127.0.0.1:8000/api/purchase_orders/<str:pk>/  
     http://127.0.0.1:8000/api/purchase_orders/<str:pk>/acknowledge/ 
 
-# endpoint for Vendor.
+# Endpoint for Vendor.
 
 1. Create Vendors
     url = http://127.0.0.1:8000/api/vendors/
     request = POST
+   '''
         {
             "vendor_code": "VND-001",
             "name": "vendor01",
             "contact_details": "vendor details01",
             "address": "vendor address01",
         }
-
-2. list vendors
+   '''
+   
+3. list vendors
     url = http://127.0.0.1:8000/api/vendors/
     request = GET
     
-3. Update vendors
+4. Update vendors
     url = http://127.0.0.1:8000/api/vendors/<str:vendor_id>/
     request = GET, PUT, DELETE
 
-4. Performance Review of Vendor
+5. Performance Review of Vendor
     url = http://127.0.0.1:8000/api/vendors/<str:vendor_id>/performance
     requesy = GET
 
-# endpoints for Purchase Order Tracking
+# Endpoints for Purchase Order Tracking
 
 1. Create Purchase Order
     url = http://127.0.0.1:8000/api/purchase_orders/
     request = POST
+   '''
         {
             "po_number": "PO-001",
             "items": {
@@ -105,16 +110,16 @@ metrics.
             "status": "Pending",
             "vendor": "VND-001"
         }  
-
-2. list purchase Orders
+   '''
+3. list purchase Orders
     url = http://127.0.0.1:8000/api/purchase_orders/
     request = GET
     
-3. Update purchase orders
+4. Update purchase orders
     url = http://127.0.0.1:8000/api/purchase_orders/<str:po_id>/
     request = GET, PUT, DELETE
 
-4. Acknowledge of Purchase order by Vendor
+5. Acknowledge of Purchase order by Vendor
     url = http://127.0.0.1:8000/api/vendors/<str:po_id>/performance
     requesy = POST
 
