@@ -82,9 +82,10 @@ metrics.
 ## Endpoint for Vendor.
 
 1. Create Vendors
+   ```
     url = http://127.0.0.1:8000/api/vendors/
     request = POST
-   ```
+   
         {
             "vendor_code": "VND-001",
             "name": "vendor01",
