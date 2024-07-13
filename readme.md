@@ -71,6 +71,8 @@ metrics.
 
 ## API endpoints
 ```
+    http://127.0.0.1:8000/api/token-auth/
+
     http://127.0.0.1:8000/api/vendors/ 
     http://127.0.0.1:8000/api/vendors/<str:vendor_id>/
     http://127.0.0.1:8000/api/vendors/<str:vendor_id>/performance
@@ -98,16 +100,23 @@ metrics.
    ```
     url = http://127.0.0.1:8000/api/vendors/
     request = GET
+
    ```
 5. Update vendors
    ```
     url = http://127.0.0.1:8000/api/vendors/<str:vendor_id>/
     request = GET, PUT, DELETE
+    
+    Ex - http://127.0.0.1:8000/api/vendors/VND-001/
+
    ```
 7. Performance Review of Vendor
    ```
     url = http://127.0.0.1:8000/api/vendors/<str:vendor_id>/performance
-    requesy = GET
+    request = GET
+
+    Ex - http://127.0.0.1:8000/api/vendors/VND-001/performance
+
    ```
 ## Endpoints for Purchase Order Tracking
 
@@ -135,9 +144,51 @@ metrics.
    ```
     url = http://127.0.0.1:8000/api/purchase_orders/<str:po_id>/
     request = GET, PUT, DELETE
+    
+    Ex - http://127.0.0.1:8000/api/purchase_orders/PO-001/
+
    ```
 7. Acknowledge of Purchase order by Vendor
    ```
-    url = http://127.0.0.1:8000/api/vendors/<str:po_id>/performance
+    url = http://127.0.0.1:8000/api/vendors/<str:po_id>/acknowledge
     request = POST
+
+    Ex - http://127.0.0.1:8000/api/purchase_orders/PO-001/acknowledge
+
    ```
+
+### Added Rest framework Token Based Authentication
+
+1. make sure these files are in settings.py
+
+   ```bash
+      INSTALLED_APPS = [
+         ...
+         'rest_framework.authtoken'
+      ]
+
+   #and
+
+      REST_FRAMEWORK = {
+         'DEFAULT_AUTHENTICATION_CLASSES': (
+         'rest_framework.authentication.TokenAuthentication',
+      ),
+         'DEFAULT_PERMISSION_CLASSES': (
+         'rest_framework.permissions.IsAdminUser'
+      ),
+      }
+   ```
+   ```bash
+      Run python manage.py migrate
+   ```
+
+2. To create a Authentication Token 
+   ```bash
+      http://127.0.0.1:8000/api/token-auth/
+
+   ```
+   send valid username and password through formdata or json and you will get a token.
+
+3. Now for Everytime you want to acces vendors and purchase orders data. make sure you have token in headers.
+
+

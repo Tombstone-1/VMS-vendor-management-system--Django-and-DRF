@@ -1,13 +1,21 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 from rest_framework import status
 from datetime import datetime
 
 from .serializers import Vendor_profile_serializers, Vendor_performance_serializer, Purchase_Order_Tracking_serializer
-from .models import Vendor, Purchase_Order, Historical_Performance
+from .models import Vendor, Purchase_Order
+
+for user in User.objects.all():
+    token= Token.objects.get_or_create(user=user)
+    #print(token)
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def vendors_list(request):
     if request.method == 'GET':
         queryset = Vendor.objects.all()
@@ -23,6 +31,7 @@ def vendors_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def vendors_update(request, vendor_id):
     try:
         queryset = Vendor.objects.get(vendor_code=vendor_id)
@@ -47,6 +56,7 @@ def vendors_update(request, vendor_id):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def purchase_order_list(request):
     if request.method == 'GET':
         query = Purchase_Order.objects.all()
@@ -62,6 +72,7 @@ def purchase_order_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def purchase_order_update(request, po_id):
     try:
         queryset = Purchase_Order.objects.get(po_number=po_id)
@@ -84,6 +95,7 @@ def purchase_order_update(request, po_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def vendor_performance(request, vendor_id):
     try:
         queryset = Vendor.objects.get(vendor_code=vendor_id)
@@ -94,6 +106,7 @@ def vendor_performance(request, vendor_id):
         return Response({"warning" : "selected vendor_id data not found"},status=status.HTTP_404_NOT_FOUND) 
         
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def PurchaseOrder_acknowledgement(request, po_id):
     try:
         queryset = Purchase_Order.objects.get(po_number=po_id)
@@ -106,6 +119,3 @@ def PurchaseOrder_acknowledgement(request, po_id):
         return Response({"success" : "Acknowledge Time Updated Successfully"}, status=status.HTTP_200_OK)
                 
         
-
-
-
